@@ -10,14 +10,12 @@ from streamlit_folium import st_folium
 import openai
 import math
 import os
-from dotenv import load_dotenv
 
 # ──────────────────────────────
-# ✅ 환경변수 불러오기 (.env에 저장된 키 사용)
+# ✅ 환경변수 불러오기 (Streamlit Cloud 호환에 저장된 키 사용)
 # ──────────────────────────────
-load_dotenv()
-MAPBOX_TOKEN = os.getenv("MAPBOX_TOKEN")
-openai.api_key = os.getenv("OPENAI_API_KEY")
+MAPBOX_TOKEN = st.secrets["MAPBOX_TOKEN"]
+openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 # ──────────────────────────────
 # ✅ 데이터 로드
