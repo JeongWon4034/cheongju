@@ -3,10 +3,10 @@ pandas
 geopandas
 folium
 osmnx==1.6.0
-networkx>=2.8
-scipy
-shapely
-rtree
+networkx
 numpy
+scipy
+rtree
+shapely
 streamlit-folium
 openai
