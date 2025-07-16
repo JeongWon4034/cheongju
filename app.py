@@ -176,23 +176,41 @@ with col4:
             folium.PolyLine([(pt[1], pt[0]) for pt in seg], color="red").add_to(m)
     st_folium(m, width="100%", height=400)
 
-    st.markdown("---")
-    st.subheader("🏛️ GPT 가이드")
-    if st.button("🔁 방문 순서 자동 입력"):
-        st.session_state["auto_gpt_input"] = ", ".join(st.session_state.get("order", []))
-    with st.form("chat_form"):
-        user_input = st.text_input("관광지명 쉼표로", value=st.session_state.get("auto_gpt_input", ""))
-        submitted = st.form_submit_button("보내기")
-    if submitted and user_input:
-        st.session_state["messages"].append({"role": "user", "content": user_input})
-        gpt_reply = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role": "system", "content": "너는 청주 관광 가이드야."},
-                {"role": "user", "content": user_input}
-            ]
-        ).choices[0].message.content
-        st.session_state["messages"].append({"role": "assistant", "content": gpt_reply})
+      # OpenAI 클라이언트 초기화
+client = openai.OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+
+# GPT 가이드 UI
+st.markdown("---")
+st.subheader("🏛️ GPT 가이드")
+
+# 버튼 누르면 자동 입력값 저장
+if st.button("🔁 방문 순서 자동 입력"):
+    st.session_state["auto_gpt_input"] = ", ".join(st.session_state.get("order", []))
+
+# 메시지 상태 초기화 (한 번만 실행됨)
+if "messages" not in st.session_state:
+    st.session_state["messages"] = []
+
+# 입력 폼 구성
+with st.form("chat_form"):
+    user_input = st.text_input("관광지명 쉼표로", value=st.session_state.get("auto_gpt_input", ""))
+    submitted = st.form_submit_button("보내기")
+
+# 폼 제출되었을 때 GPT 호출
+if submitted and user_input:
+    st.session_state["messages"].append({"role": "user", "content": user_input})
+
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": "너는 청주 관광 가이드야."},
+            {"role": "user", "content": user_input}
+        ]
+    )
+
+    gpt_reply = response.choices[0].message.content
+    st.markdown(f"**🗺️ GPT 답변:** {gpt_reply}")
+
     for msg in st.session_state["messages"][1:]:
         align = "right" if msg["role"] == "user" else "left"
         bg = "#dcf8c6" if msg["role"] == "user" else "#fff"
