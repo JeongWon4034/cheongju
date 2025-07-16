@@ -2,7 +2,9 @@ streamlit
 pandas
 geopandas
 folium
-osmnx
+osmnx==1.6.0
+networkx>=2.8
+scipy
 requests
 shapely
 streamlit-folium
