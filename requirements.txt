@@ -5,8 +5,8 @@ folium
 osmnx==1.6.0
 networkx>=2.8
 scipy
-requests
 shapely
+rtree
+numpy
 streamlit-folium
 openai
-python-dotenv
