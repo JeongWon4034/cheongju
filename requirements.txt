@@ -1,7 +1,7 @@
 streamlit>=1.32
 geopandas>=0.14
 folium>=0.16
-scipy
+scipy==1.11.4
 osmnx>=1.9  
 shapely>=2.0
 requests>=2.31
