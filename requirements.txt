@@ -10,3 +10,4 @@ geopy
 pandas
 python-dotenv 
 numpy
+scikit-learn>=1.3 
