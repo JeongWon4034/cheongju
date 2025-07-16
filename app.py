@@ -132,7 +132,7 @@ with col4:
     for nm in stops:
         row = gdf[gdf["name"] == nm].iloc[0]
         lon, lat = row.lon, row.lat
-        node_id = ox.distance.nearest_nodes(G, lon, lat)
+        node_id = ox.nearest_nodes(G, lon, lat)
         node_data = G.nodes[node_id]
         snapped.append((node_data['x'], node_data['y']))
 
