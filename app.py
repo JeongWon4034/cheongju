@@ -291,7 +291,7 @@ if submitted and user_input:
                 cafe_info = format_cafes(cafes)
             else:
                 cafe_info = (
-                    "🧋 현재 이 관광지 주변에 등록된 카페 정보는 없어요.  \n"
+                    "현재 이 관광지 주변에 등록된 카페 정보는 없어요.  \n"
                     "하지만 근처에 숨겨진 보석 같은 공간이 있을 수 있으니,  \n"
                     "지도를 활용해 천천히 걸어보시는 것도 추천드립니다 😊"
                 )
