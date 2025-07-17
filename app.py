@@ -245,7 +245,7 @@ if submitted and user_input:
                        model="gpt-3.5-turbo",
                        messages=[
                            {"role": "system", "content": "당신은 청주 지역의 문화 관광지를 간단하고 감성적으로 소개하는 관광 가이드입니다."},
-                           {"role": "user", "content": f"{place}를 한 문단 이내로 간단히, 감성적인 말투로 소개해 주세요. 줄바꿈 없이 써 주세요."}
+                           {"role": "user", "content": f"{place}를 두 문단 이내로 간단히, 감성적인 말투로 소개해 주세요.줄바꿈도 사용해 주세요."}
                        ]
                    ).choices[0].message.content
 
@@ -279,16 +279,24 @@ if submitted and user_input:
                        ).choices[0].message.content
 
                    # 최종 출력
-                   st.markdown(f"""---  
-           🏛️ **{place}**  
-           {score_text}
+                    
+                  response_lines = []
+                  response_lines.append("---")
+                  response_lines.append(f"🏛️ **{place}**")
+                  if score_text:
+                      response_lines.append(score_text)
+                  response_lines.append("✨ **소개**")
+                  response_lines.append(gpt_intro.strip())
+                  if review_block:
+                      response_lines.append("💬 **방문자 리뷰**")
+                      for r in review_text.split("\n"):
+                          response_lines.append(f"- {r.strip('“”')}")
+                  if cafe_info:
+                      response_lines.append("☕ **주변 카페 추천**")
+                      response_lines.append(cafe_info.strip())
 
-           ✨ {gpt_intro}
-
-           {review_block}
-
-           {cafe_info}
-           """)
+                  # 출력
+                  st.markdown("\n\n".join(response_lines))
 
 
 
