@@ -215,6 +215,16 @@ with col4:
       # OpenAI 클라이언트 초기화
 client = openai.OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
+
+
+
+# ------------------------------
+# ✅ GPT 가이드
+# ------------------------------
+
+
+
+
 # GPT 가이드 UI
 st.markdown("---")
 st.subheader("🏛️ AI 가이드")
@@ -229,8 +239,8 @@ if "messages" not in st.session_state:
 
 # 입력 폼 구성
 with st.form("chat_form"):
-    user_input = st.text_input("관광지명 쉼표로", value=st.session_state.get("auto_gpt_input", ""))
-    submitted = st.form_submit_button("보내기")
+    user_input = st.text_input("관광지명 쉼표로 구분", value=st.session_state.get("auto_gpt_input", ""))
+    submitted = st.form_submit_button("click!")
 
 # 폼 제출되었을 때 GPT 호출
 if submitted and user_input:
@@ -247,7 +257,7 @@ if submitted and user_input:
                        model="gpt-3.5-turbo",
                        messages=[
                            {"role": "system", "content": "당신은 청주 지역의 문화 관광지를 간단하고 감성적으로 소개하는 관광 가이드입니다."},
-                           {"role": "user", "content": f"{place}를 두 문단 이내로 간단히, 감성적인 말투로 소개해 주세요.줄바꿈도 사용해 주세요."}
+                           {"role": "user", "content": f"{place}를 두 문단 이내로 간단히, 감성적인 말투로 소개해 주세요. 줄바꿈도 사용해 주세요."}
                        ]
                    ).choices[0].message.content
 
