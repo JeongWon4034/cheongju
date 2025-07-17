@@ -150,8 +150,7 @@ if clear_clicked:
         st.session_state.pop(widget_key, None)
 
     # rerun으로 적용
-    st.experimental_rerun()
-
+    st.rerun()
 
 # ------------------------------
 # ✅ [중간] 방문 순서
