@@ -198,20 +198,79 @@ with st.form("chat_form"):
 
 # 폼 제출되었을 때 GPT 호출
 if submitted and user_input:
-    st.session_state["messages"].append({"role": "user", "content": user_input})
+    # st.session_state["messages"].append({"role": "user", "content": user_input})
+    
+    # 관광지 순서가 있을 때: 순서대로 GPT + 평점 + 리뷰 + 카페 정보 출력
+if st.session_state["order"]:
+    st.markdown("## ✨ 관광지별 안내 + 카페 추천")
+    for place in st.session_state["order"]:
+        matched = data[data['t_name'].str.contains(place, na=False)]
 
-    response = client.chat.completions.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "system", "content": "너는 청주 관광 가이드야."},
-            {"role": "user", "content": user_input}
-        ]
-    )
+        # GPT 간략 소개
+        gpt_intro = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "당신은 청주 지역의 문화 관광지를 간단하고 감성적으로 소개하는 관광 가이드입니다."},
+                {"role": "user", "content": f"{place}를 한 문단 이내로 간단히, 감성적인 말투로 소개해 주세요. 줄바꿈 없이 써 주세요."}
+            ]
+        ).choices[0].message.content
 
-    gpt_reply = response.choices[0].message.content
-    st.markdown(f"**🗺️ GPT 답변:** {gpt_reply}")
+        score_text = ""
+        review_block = ""
+        cafe_info = ""
 
-    for msg in st.session_state["messages"][1:]:
-        align = "right" if msg["role"] == "user" else "left"
-        bg = "#dcf8c6" if msg["role"] == "user" else "#fff"
-        st.markdown(f"<div style='text-align:{align};background:{bg};padding:8px;border-radius:10px;margin-bottom:6px'>{msg['content']}</div>", unsafe_allow_html=True)
+        if not matched.empty:
+            # 평점
+            t_value = matched['t_value'].dropna().unique()
+            score_text = f"📊 관광지 평점: ⭐ {t_value[0]}" if len(t_value) > 0 else ""
+
+            # 리뷰
+            reviews = matched['t_review'].dropna().unique()
+            reviews = [r for r in reviews if all(x not in r for x in ["없음", "없읍"])]
+            if reviews:
+                review_text = "\n".join([f"“{r}”" for r in reviews[:3]])
+                review_block = f"💬 방문자 리뷰\n{review_text}"
+
+            # 카페
+            cafes = matched[['c_name', 'c_value', 'c_review']].drop_duplicates()
+            cafe_info = format_cafes(cafes)
+        else:
+            # fallback: GPT가 카페 감성 추천
+            cafe_info = client.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=[
+                    {"role": "system", "content": "당신은 청주 지역의 감성적인 관광 가이드입니다. 공손하고 따뜻한 말투로 주변 카페를 추천하세요."},
+                    {"role": "user", "content": f"{place} 주변에 어울리는 카페를 2~3곳 추천해 주세요. 이름, 분위기, 어떤 사람에게 잘 어울리는지 등을 감성적으로 설명해 주세요. 이모지와 줄바꿈도 사용해 주세요."}
+                ]
+            ).choices[0].message.content
+
+        # 최종 출력
+        st.markdown(f"""---  
+🏛️ **{place}**  
+{score_text}
+
+✨ {gpt_intro}
+
+{review_block}
+
+{cafe_info}
+""")
+
+
+
+
+    # response = client.chat.completions.create(
+    #     model="gpt-3.5-turbo",
+    #     messages=[
+    #         {"role": "system", "content": "너는 청주 관광 가이드야."},
+    #         {"role": "user", "content": user_input}
+    #     ]
+    # )
+
+    # gpt_reply = response.choices[0].message.content
+    # st.markdown(f"**🗺️ GPT 답변:** {gpt_reply}")
+
+    # for msg in st.session_state["messages"][1:]:
+    #     align = "right" if msg["role"] == "user" else "left"
+    #     bg = "#dcf8c6" if msg["role"] == "user" else "#fff"
+    #     st.markdown(f"<div style='text-align:{align};background:{bg};padding:8px;border-radius:10px;margin-bottom:6px'>{msg['content']}</div>", unsafe_allow_html=True)
