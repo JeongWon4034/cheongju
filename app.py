@@ -108,7 +108,7 @@ st.markdown("""
 # ──────────────────────────────
 # ✅ 상단 타이틀
 # ──────────────────────────────
-st.markdown("<h1 style='text-align:center;'>📍 청주시 경로 & GPT 대시보드</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align:center;'>📍 청풍로드</h1>", unsafe_allow_html=True)
 
 # ──────────────────────────────
 # ✅ 컬럼: 좌 → 우 UX 흐름
@@ -218,6 +218,11 @@ client = openai.OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
 
 
+
+
+
+
+
 # ------------------------------
 # ✅ GPT 가이드
 # ------------------------------
@@ -247,7 +252,7 @@ if submitted and user_input :
 
 
         if st.session_state["order"]:
-            st.markdown("## ✨ 관광지별 안내 + 카페 추천")
+            st.markdown("## ✨ 관광지별 소개 + 카페 추천")
 
             for place in st.session_state["order"]:
                 matched = data[data['t_name'].str.contains(place, na=False)]
@@ -256,8 +261,9 @@ if submitted and user_input :
                 gpt_intro = client.chat.completions.create(
                     model="gpt-3.5-turbo",
                     messages=[
-                        {"role": "system", "content": "당신은 청주 지역의 문화 관광지를 간단하고 감성적으로 소개하는 관광 가이드입니다."},
-                        {"role": "user", "content": f"{place}를 두 문단 이내로 간단히, 감성적인 말투로 소개해 주세요. 줄바꿈도 사용해 주세요."}
+                        {"role": "system", "content": "당신은 청주 지역의 문화 관광지를 간단하게 소개하는 관광 가이드입니다."},
+                        {"role": "systemr", "content": "존댓말을 사용하세요."},
+                        {"role": "user", "content": f"{place}를 두 문단 이내로 간단히 설명해주세요. 줄바꿈도 사용해 주세요."}
                     ]
                 ).choices[0].message.content
 
@@ -279,12 +285,12 @@ if submitted and user_input :
                     cafe_info = format_cafes(cafes)
                 else:
                     cafe_info = (
-                        "☕ 현재 이 관광지 주변에 등록된 카페 정보는 없어요.  \n"
+                        "🧋 현재 이 관광지 주변에 등록된 카페 정보는 없어요.  \n"
                         "하지만 근처에 숨겨진 보석 같은 공간이 있을 수 있으니,  \n"
                         "지도를 활용해 천천히 걸어보시는 것도 추천드립니다 😊"
                     )
 
-        # ✅ 반복문 안에서 출력하기!
+        # ✅ 반복문 안에서 출력
                 response_lines = []
                 response_lines.append("---")
                 response_lines.append(f"🏛️ **{place}**")
@@ -297,10 +303,10 @@ if submitted and user_input :
                     for r in review_text.split("\n"):
                         response_lines.append(f"- {r.strip('“”')}")
                 if cafe_info:
-                    response_lines.append("☕ **주변 카페 추천**")
+                    response_lines.append("🧋 **주변 카페 추천**")
                     response_lines.append(cafe_info.strip())
 
-            # ⬅️ 출력이 반복문 안으로 들어가야 함!
+            # 
                 st.markdown("\n\n".join(response_lines))
 
     # st.session_state["messages"].append({"role": "user", "content": user_input})
