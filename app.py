@@ -24,7 +24,10 @@ gdf = gpd.read_file("cb_tour.shp").to_crs(epsg=4326)
 gdf["lon"], gdf["lat"] = gdf.geometry.x, gdf.geometry.y
 boundary = gpd.read_file("cb_shp.shp").to_crs(epsg=4326)
 data = pd.read_csv("cj_data_final.csv", encoding="cp949").drop_duplicates()
-# 카페 포맷 함수
+
+
+
+# csv 파일에 카페 있을때 출력 / 카페 포맷 함수
 def format_cafes(cafes_df):
     cafes_df = cafes_df.drop_duplicates(subset=['c_name', 'c_value', 'c_review'])
     result = []
@@ -269,14 +272,14 @@ if submitted and user_input:
                        cafes = matched[['c_name', 'c_value', 'c_review']].drop_duplicates()
                        cafe_info = format_cafes(cafes)
                    else:
-                       # fallback: GPT가 카페 감성 추천
-                       cafe_info = client.chat.completions.create(
-                           model="gpt-3.5-turbo",
-                           messages=[
-                               {"role": "system", "content": "당신은 청주 지역의 감성적인 관광 가이드입니다. 공손하고 따뜻한 말투로 주변 카페를 추천하세요."},
-                               {"role": "user", "content": f"{place} 주변에 어울리는 카페를 2~3곳 추천해 주세요. 이름, 분위기, 어떤 사람에게 잘 어울리는지 등을 감성적으로 설명해 주세요. 이모지와 줄바꿈도 사용해 주세요."}
-                           ]
-                       ).choices[0].message.content
+                       cafe_info = ( "☕ 현재 이 관광지 주변에 등록된 카페 정보는 없어요.  \n"
+                                      "하지만 근처에 숨겨진 보석 같은 공간이 있을 수 있으니,  \n"
+                                      "지도를 활용해 천천히 걸어보시는 것도 추천드립니다 😊")
+            else:
+                # 관광지 자체가 매칭되지 않는 경우 (에외처리)
+                score_text=""
+                review_block=""
+                cafe_info="⚠️ 해당 관광지를 찾을 수 없어요. 이름을 다시 확인해 주세요!"
 
                    # 최종 출력
                     
