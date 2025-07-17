@@ -248,28 +248,31 @@ with st.form("chat_form"):
     submitted = st.form_submit_button("click!")
 
 # 폼 제출되었을 때 GPT 호출
-if submitted and user_input :
+if submitted and user_input:
 
+    if st.session_state["order"]:
+        st.markdown("## ✨ 관광지별 소개 + 카페 추천")
 
-        if st.session_state["order"]:
-            st.markdown("## ✨ 관광지별 소개 + 카페 추천")
+        # 최대 3개까지만 처리
+        for place in st.session_state["order"][:3]:
+            matched = data[data['t_name'].str.contains(place, na=False)]
 
-            for place in st.session_state["order"]:
-                matched = data[data['t_name'].str.contains(place, na=False)]
-
-        # GPT 간략 소개
+            # GPT 간략 소개 with 예외 처리
+            try:
                 gpt_intro = client.chat.completions.create(
                     model="gpt-3.5-turbo",
                     messages=[
                         {"role": "system", "content": "당신은 청주 지역의 문화 관광지를 간단하게 소개하는 관광 가이드입니다."},
-                        {"role": "systemr", "content": "존댓말을 사용하세요."},
+                        {"role": "system", "content": "존댓말을 사용하세요."},
                         {"role": "user", "content": f"{place}를 두 문단 이내로 간단히 설명해주세요. 줄바꿈도 사용해 주세요."}
                     ]
                 ).choices[0].message.content
+            except Exception as e:
+                gpt_intro = f"❌ GPT 호출 실패: {place} 소개를 불러올 수 없어요."
 
-                score_text = ""
-                review_block = ""
-                cafe_info = ""
+            score_text = ""
+            review_block = ""
+            cafe_info = ""
 
                 if not matched.empty:
                     t_value = matched['t_value'].dropna().unique()
