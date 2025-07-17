@@ -228,7 +228,7 @@ client = openai.OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 # ------------------------------
 
 
-
+####### 현재 GPT 가이드는 토큰 제한으로 인해 출발지 포함 3개까지만 관광지를 호출할 수 있습니다 ######
 
 # GPT 가이드 UI
 st.markdown("---")
