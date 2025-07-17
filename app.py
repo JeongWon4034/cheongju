@@ -274,43 +274,45 @@ if submitted and user_input:
             review_block = ""
             cafe_info = ""
 
-                if not matched.empty:
-                    t_value = matched['t_value'].dropna().unique()
-                    score_text = f"📊 관광지 평점: ⭐ {t_value[0]}" if len(t_value) > 0 else ""
+            if not matched.empty:
+                # 평점
+                t_value = matched['t_value'].dropna().unique()
+                score_text = f"📊 관광지 평점: ⭐ {t_value[0]}" if len(t_value) > 0 else ""
 
-                    reviews = matched['t_review'].dropna().unique()
-                    reviews = [r for r in reviews if all(x not in r for x in ["없음", "없읍"])]
-                    if reviews:
-                        review_text = "\n".join([f"“{r}”" for r in reviews[:3]])
-                        review_block = f"💬 방문자 리뷰\n{review_text}"
+                # 리뷰
+                reviews = matched['t_review'].dropna().unique()
+                reviews = [r for r in reviews if all(x not in r for x in ["없음", "없읍"])]
+                if reviews:
+                    review_text = "\n".join([f"“{r}”" for r in reviews[:3]])
+                    review_block = f"💬 방문자 리뷰\n{review_text}"
 
-                    cafes = matched[['c_name', 'c_value', 'c_review']].drop_duplicates()
-                    cafe_info = format_cafes(cafes)
-                else:
-                    cafe_info = (
-                        "🧋 현재 이 관광지 주변에 등록된 카페 정보는 없어요.  \n"
-                        "하지만 근처에 숨겨진 보석 같은 공간이 있을 수 있으니,  \n"
-                        "지도를 활용해 천천히 걸어보시는 것도 추천드립니다 😊"
-                    )
+                # 카페
+                cafes = matched[['c_name', 'c_value', 'c_review']].drop_duplicates()
+                cafe_info = format_cafes(cafes)
+            else:
+                cafe_info = (
+                    "🧋 현재 이 관광지 주변에 등록된 카페 정보는 없어요.  \n"
+                    "하지만 근처에 숨겨진 보석 같은 공간이 있을 수 있으니,  \n"
+                    "지도를 활용해 천천히 걸어보시는 것도 추천드립니다 😊"
+                )
 
-        # ✅ 반복문 안에서 출력
-                response_lines = []
-                response_lines.append("---")
-                response_lines.append(f"🏛️ **{place}**")
-                if score_text:
-                    response_lines.append(score_text)
-                response_lines.append("✨ **소개**")
-                response_lines.append(gpt_intro.strip())
-                if review_block:
-                    response_lines.append("💬 **방문자 리뷰**")
-                    for r in review_text.split("\n"):
-                        response_lines.append(f"- {r.strip('“”')}")
-                if cafe_info:
-                    response_lines.append("🧋 **주변 카페 추천**")
-                    response_lines.append(cafe_info.strip())
+            # ✅ 반복문 안에서 출력
+            response_lines = []
+            response_lines.append("---")
+            response_lines.append(f"🏛️ **{place}**")
+            if score_text:
+                response_lines.append(score_text)
+            response_lines.append("✨ **소개**")
+            response_lines.append(gpt_intro.strip())
+            if review_block:
+                response_lines.append("💬 **방문자 리뷰**")
+                for r in review_text.split("\n"):
+                    response_lines.append(f"- {r.strip('“”')}")
+            if cafe_info:
+                response_lines.append("🧋 **주변 카페 추천**")
+                response_lines.append(cafe_info.strip())
 
-            # 
-                st.markdown("\n\n".join(response_lines))
+            st.markdown("\n\n".join(response_lines))
 
     # st.session_state["messages"].append({"role": "user", "content": user_input})
     
