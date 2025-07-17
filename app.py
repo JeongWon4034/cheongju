@@ -27,13 +27,15 @@ data = pd.read_csv("cj_data_final.csv", encoding="cp949").drop_duplicates()
 
 
 
+
+
 # csv 파일에 카페 있을때 출력 / 카페 포맷 함수
 def format_cafes(cafes_df):
     cafes_df = cafes_df.drop_duplicates(subset=['c_name', 'c_value', 'c_review'])
     result = []
 
     if len(cafes_df) == 0:
-        return ("☕ 현재 이 관광지 주변에 등록된 카페 정보는 없어요.  \n"
+        return ("현재 이 관광지 주변에 등록된 카페 정보는 없어요.  \n"
                 "하지만 근처에 숨겨진 보석 같은 공간이 있을 수 있으니,  \n"
                 "지도를 활용해 천천히 걸어보시는 것도 추천드립니다 😊")
 
@@ -46,7 +48,7 @@ def format_cafes(cafes_df):
 
     else:
         grouped = cafes_df.groupby(['c_name', 'c_value'])
-        result.append("☕ **주변에 이런 카페들이 있어요** 🌼\n")
+        result.append("**주변의 평점 높은 카페들은 여기 있어요!** 🌼\n")
         for (name, value), group in grouped:
             reviews = group['c_review'].dropna().unique()
             reviews = [r for r in reviews if all(x not in r for x in ["없음", "없읍"])]
@@ -59,6 +61,9 @@ def format_cafes(cafes_df):
                 result.append(f"- **{name}** (⭐ {value})")
 
         return "\n\n".join(result)
+
+
+
 
 
 # ──────────────────────────────
