@@ -201,6 +201,7 @@ if submitted and user_input:
     # st.session_state["messages"].append({"role": "user", "content": user_input})
     
     # 관광지 순서가 있을 때: 순서대로 GPT + 평점 + 리뷰 + 카페 정보 출력
+        # 관광지 순서가 있을 때: 순서대로 GPT + 평점 + 리뷰 + 카페 정보 출력
 if st.session_state["order"]:
     st.markdown("## ✨ 관광지별 안내 + 카페 추천")
     for place in st.session_state["order"]:
@@ -255,6 +256,7 @@ if st.session_state["order"]:
 
 {cafe_info}
 """)
+
 
 
 
