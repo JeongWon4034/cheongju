@@ -24,6 +24,39 @@ gdf = gpd.read_file("cb_tour.shp").to_crs(epsg=4326)
 gdf["lon"], gdf["lat"] = gdf.geometry.x, gdf.geometry.y
 boundary = gpd.read_file("cb_shp.shp").to_crs(epsg=4326)
 data = pd.read_csv("cj_data_final.csv", encoding="cp949").drop_duplicates()
+# 카페 포맷 함수
+def format_cafes(cafes_df):
+    cafes_df = cafes_df.drop_duplicates(subset=['c_name', 'c_value', 'c_review'])
+    result = []
+
+    if len(cafes_df) == 0:
+        return ("☕ 현재 이 관광지 주변에 등록된 카페 정보는 없어요.  \n"
+                "하지만 근처에 숨겨진 보석 같은 공간이 있을 수 있으니,  \n"
+                "지도를 활용해 천천히 걸어보시는 것도 추천드립니다 😊")
+
+    elif len(cafes_df) == 1:
+        row = cafes_df.iloc[0]
+        if all(x not in row["c_review"] for x in ["없음", "없읍"]):
+            return f"""☕ **주변 추천 카페**\n\n- **{row['c_name']}** (⭐ {row['c_value']})  \n“{row['c_review']}”"""
+        else:
+            return f"""☕ **주변 추천 카페**\n\n- **{row['c_name']}** (⭐ {row['c_value']})"""
+
+    else:
+        grouped = cafes_df.groupby(['c_name', 'c_value'])
+        result.append("☕ **주변에 이런 카페들이 있어요** 🌼\n")
+        for (name, value), group in grouped:
+            reviews = group['c_review'].dropna().unique()
+            reviews = [r for r in reviews if all(x not in r for x in ["없음", "없읍"])]
+            top_reviews = reviews[:3]
+
+            if top_reviews:
+                review_text = "\n".join([f"“{r}”" for r in top_reviews])
+                result.append(f"- **{name}** (⭐ {value})  \n{review_text}")
+            else:
+                result.append(f"- **{name}** (⭐ {value})")
+
+        return "\n\n".join(result)
+
 
 # ──────────────────────────────
 # ✅ Session 초기화
