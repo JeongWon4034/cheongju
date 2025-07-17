@@ -280,9 +280,9 @@ if submitted and user_input:
 
                    # 최종 출력
                     
-                    response_lines = []
-                    response_lines.append("---")
-                    response_lines.append(f"🏛️ **{place}**")
+                   response_lines = []
+                   response_lines.append("---")
+                   response_lines.append(f"🏛️ **{place}**")
                    if score_text:
                       response_lines.append(score_text)
                    response_lines.append("✨ **소개**")
