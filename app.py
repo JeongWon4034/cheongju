@@ -256,7 +256,7 @@ client = openai.OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
 # GPT 가이드 UI
 st.markdown("---")
-st.subheader("🏛️ AI 가이드")
+st.subheader("🏛️ AI 관광 가이드")
 
 # 버튼 누르면 자동 입력값 저장
 if st.button("🔁 방문 순서 자동 입력"):
@@ -286,9 +286,9 @@ if submitted and user_input:
                 gpt_intro = client.chat.completions.create(
                     model="gpt-3.5-turbo",
                     messages=[
-                        {"role": "system", "content": "당신은 청주 지역의 문화 관광지를 간단하게 소개하는 관광 가이드입니다."},
+                        {"role": "system", "content": "당신은 청주 지역의 문화 관광지를 간단하게 소개하는 관광 가이드입니다. "},
                         {"role": "system", "content": "존댓말을 사용하세요."},
-                        {"role": "user", "content": f"{place}를 두 문단 이내로 간단히 설명해주세요. 줄바꿈도 사용해 주세요."}
+                        {"role": "user", "content": f"{place}를 두 문단 이내로 간단히 설명해주세요."}
                     ]
                 ).choices[0].message.content
             except Exception as e:
