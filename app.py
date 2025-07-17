@@ -126,12 +126,32 @@ col1, col2, col3, col4 = st.columns([1.5, 1, 1, 3], gap="large")
 with col1:
     st.markdown("<div class='card'>", unsafe_allow_html=True)
     st.subheader("🚗 경로 설정")
-    mode = st.radio("이동 모드", ["driving", "walking"], horizontal=True)
-    start = st.selectbox("출발지", gdf["name"].dropna().unique())
-    wps = st.multiselect("경유지", [n for n in gdf["name"].dropna().unique() if n != start])
+
+    # ✅ 키 지정해서 초기화 가능하게 만들기
+    mode = st.radio("이동 모드", ["driving", "walking"], horizontal=True, key="mode_key")
+    start = st.selectbox("출발지", gdf["name"].dropna().unique(), key="start_key")
+    wps = st.multiselect("경유지", [n for n in gdf["name"].dropna().unique() if n != st.session_state["start_key"]], key="wps_key")
+
     create_clicked = st.button("✅ 경로 생성")
-    clear_clicked = st.button("🚫 초기화")
+    clear_clicked = st.button("🚫 초기화")  # 초기화 버튼 유지
+
     st.markdown("</div>", unsafe_allow_html=True)
+
+# ------------------------------
+# ✅ 초기화 처리 (버튼 누를 때)
+# ------------------------------
+if clear_clicked:
+    # 상태값 초기화
+    for k in ["segments", "order", "duration", "distance", "auto_gpt_input"]:
+        st.session_state.pop(k, None)
+
+    # 위젯 값도 초기화
+    for widget_key in ["mode_key", "start_key", "wps_key"]:
+        st.session_state.pop(widget_key, None)
+
+    # rerun으로 적용
+    st.experimental_rerun()
+
 
 # ------------------------------
 # ✅ [중간] 방문 순서
