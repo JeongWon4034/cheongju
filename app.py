@@ -217,7 +217,7 @@ client = openai.OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
 # GPT 가이드 UI
 st.markdown("---")
-st.subheader("🏛️ GPT 가이드")
+st.subheader("🏛️ AI 가이드")
 
 # 버튼 누르면 자동 입력값 저장
 if st.button("🔁 방문 순서 자동 입력"):
@@ -237,7 +237,6 @@ if submitted and user_input:
     # st.session_state["messages"].append({"role": "user", "content": user_input})
     
     # 관광지 순서가 있을 때: 순서대로 GPT + 평점 + 리뷰 + 카페 정보 출력
-        # 관광지 순서가 있을 때: 순서대로 GPT + 평점 + 리뷰 + 카페 정보 출력
             if st.session_state["order"]:
                st.markdown("## ✨ 관광지별 안내 + 카페 추천")
                for place in st.session_state["order"]:
@@ -283,23 +282,23 @@ if submitted and user_input:
 
                    # 최종 출력
                     
-            response_lines = []
-            response_lines.append("---")
-            response_lines.append(f"🏛️ **{place}**")
-            if score_text:
+               response_lines = []
+               response_lines.append("---")
+               response_lines.append(f"🏛️ **{place}**")
+               if score_text:
                  response_lines.append(score_text)
-            response_lines.append("✨ **소개**")
-            response_lines.append(gpt_intro.strip())
-            if review_block:
+               response_lines.append("✨ **소개**")
+               response_lines.append(gpt_intro.strip())
+               if review_block:
                  response_lines.append("💬 **방문자 리뷰**")
                  for r in review_text.split("\n"):
                        response_lines.append(f"- {r.strip('“”')}")
-            if cafe_info:
+               if cafe_info:
                   response_lines.append("☕ **주변 카페 추천**")
                   response_lines.append(cafe_info.strip())
 
                   # 출력
-            st.markdown("\n\n".join(response_lines))
+               st.markdown("\n\n".join(response_lines))
 
 
 
