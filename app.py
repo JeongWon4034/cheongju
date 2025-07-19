@@ -537,8 +537,14 @@ with col3:
                     data_resp = r.json() if r.status_code == 200 else {}
                     
                     if data_resp.get(key):
-                        leg = data_resp[key][0]
-                        segs.append(leg["geometry"]["coordinates"])
+                        if key == "routes":
+                            leg = data_resp[key][0]
+                            coords = leg["geometry"]["coordinates"]
+                        elif key == "trips":
+                            leg = data_resp[key][0]["legs"][0]
+                            coords = leg["geometry"]["coordinates"]
+                        if coords:
+                        segs.append(coords)
                         td += leg.get("duration", 0)
                         tl += leg.get("distance", 0)
                 
