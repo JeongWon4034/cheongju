@@ -604,7 +604,7 @@ with col3:
                         offset_lon = start[0] + 0.0003
 
                         
-                        folium.map.Marker( offset_lat, offset_lon],
+                        folium.map.Marker( [offset_lat, offset_lon],
                             icon=DivIcon(html=f"<div style='background:{palette[i % len(palette)]};"
                                               "color:#fff;border-radius:50%;width:28px;height:28px;"
                                               "line-height:28px;text-align:center;font-weight:600;"
