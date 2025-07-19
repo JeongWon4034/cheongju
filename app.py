@@ -270,7 +270,7 @@ st.markdown("""
         background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
         border: none;
         border-radius: 12px;
-        padding: 16px 12px;
+        padding: 16px 10px;
         text-align: center;
         transition: all 0.2s ease;
         box-shadow: 0 2px 4px rgba(168, 237, 234, 0.3);
@@ -289,7 +289,7 @@ st.markdown("""
     }
     
     .stMetric [data-testid="metric-container"] > div:last-child {
-        font-size: 1.4rem;
+        font-size: 1.2rem;
         font-weight: 700;
         color: #1f2937;
     }
