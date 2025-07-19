@@ -595,16 +595,16 @@ with col3:
                 
                 for i, seg in enumerate(segments):
                     if seg:
-                        latlon_seg = [(pt[1], pt[0]) for pt in seg]
-                        folium.PolyLine(
-                             locations=latlon_seg,
-                             color=palette[i % len(palette)],
-                             weight=5,
-                             opacity=0.8
+                        start = seg[0]  # (lon, lat)
+                        folium.Marker(
+                            [start[1], start[0]],  # (lat, lon)
+                            icon=folium.Icon(color="red", icon="flag"),
+                            tooltip=f"{i+1}. {st.session_state['order'][i]}",
+                            popup=folium.Popup(f"<b>{i+1}. {st.session_state['order'][i]}</b>", max_width=200)
                         ).add_to(m)
                         
 
-                        # 번호 마커 + 경로 시작점 기준 살짝 위로  offset
+                        # 번호 마커 
                         start = seg[0]
                         offset_lat = start[1] + (0.1)
                         offset_lon = start[0] + (0.1)
