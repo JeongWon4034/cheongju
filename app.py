@@ -470,11 +470,8 @@ with col2:
         
         # 메트릭 섹션
         st.markdown("---")
-        col_metric1, col_metric2 = st.columns(2)
-        with col_metric1:
-            st.metric("⏱️ 소요시간", f"{st.session_state.get('duration', 0.0):.1f}분")
-        with col_metric2:
-            st.metric("📏 이동거리", f"{st.session_state.get('distance', 0.0):.2f}km")
+        st.metric("⏱️ 소요시간", f"{st.session_state.get('duration', 0.0):.1f}분")
+        st.metric("📏 이동거리", f"{st.session_state.get('distance', 0.0):.2f}km")
 
 # ------------------------------
 # ✅ [우] 지도 카드
