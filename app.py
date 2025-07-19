@@ -544,9 +544,9 @@ with col3:
                             leg = data_resp[key][0]["legs"][0]
                             coords = leg["geometry"]["coordinates"]
                         if coords:
-                        segs.append(coords)
-                        td += leg.get("duration", 0)
-                        tl += leg.get("distance", 0)
+                            segs.append(coords)
+                            td += leg.get("duration", 0)
+                            tl += leg.get("distance", 0)
                 
                 if segs:
                     st.session_state["order"] = stops
