@@ -604,7 +604,7 @@ with col3:
 
                         
                         mid = seg[len(seg) // 2]
-                        folium.map.Marker([mid[1], mid[0],
+                        folium.map.Marker([mid[1], mid[0]],
                             icon=DivIcon(html=f"<div style='background:{palette[i % len(palette)]};"
                                               "color:#fff;border-radius:50%;width:28px;height:28px;"
                                               "line-height:28px;text-align:center;font-weight:600;"
