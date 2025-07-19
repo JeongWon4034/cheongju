@@ -118,8 +118,8 @@ st.markdown("""
     }
     
     .logo-image {
-        width: 80px;
-        height: 80px;
+        width: 10px;
+        height: 100px;
         object-fit: contain;
     }
     
