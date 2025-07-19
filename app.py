@@ -713,7 +713,7 @@ if submitted and user_input:
                 st.markdown(gpt_intro.strip())
                 
                 if cafe_info:
-                    st.markdown("#### ☕ 주변 카페 추천")
+                    st.markdown("#### 🧋 주변 카페 추천")
                     st.markdown(cafe_info.strip())
                 
                 if review_block:
