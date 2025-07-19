@@ -546,7 +546,7 @@ with col3:
 
                         
                         elif key == "trips":  #  driving 일 때
-                            leg s= data_resp[key][0].get(["legs"],[])
+                            legs= data_resp[key][0].get(["legs"],[])
                             for leg in legs:
                                 coords = leg["geometry"]["coordinates"]
                                 segs.append(coords)
