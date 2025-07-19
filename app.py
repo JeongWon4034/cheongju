@@ -567,7 +567,7 @@ with col3:
             mc = MarkerCluster().add_to(m)
             for _, row in gdf.iterrows():
                 folium.Marker([row.lat, row.lon], 
-                              popup=folium.Popup(row.name, max_width=200),
+                              popup=folium.Popup(row["name"], max_width=200),
                               tooltip=row["name"],
                               icon=folium.Icon(color="gray")).add_to(mc)
             
@@ -597,9 +597,14 @@ with col3:
                                         weight=5, 
                                         opacity=0.8
                         ).add_to(m)
+
+                        # 번호 마커 + 경로 시작점 기준 살짝 위로  offset
+                        start = seg[0]
+                        offset_lat = start[1] + 0.0003
+                        offset_lon = start[0] + 0.0003
+
                         
-                        mid = seg[len(seg) // 2]
-                        folium.map.Marker([mid[1], mid[0]],
+                        folium.map.Marker( offset_lat, offset_lon],
                             icon=DivIcon(html=f"<div style='background:{palette[i % len(palette)]};"
                                               "color:#fff;border-radius:50%;width:28px;height:28px;"
                                               "line-height:28px;text-align:center;font-weight:600;"
