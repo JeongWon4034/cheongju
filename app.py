@@ -121,6 +121,8 @@ st.markdown("""
         width: 10px;
         height: 10px;
         object-fit: contain;
+        display : block;
+        max-width :100%;
     }
     
     .main-title {
