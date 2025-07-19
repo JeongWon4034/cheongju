@@ -3,6 +3,7 @@ import geopandas as gpd
 import pandas as pd
 import folium
 from folium.plugins import MarkerCluster
+from folium.features import DivIcon
 from shapely.geometry import Point
 import osmnx as ox
 import requests
