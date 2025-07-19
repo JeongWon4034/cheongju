@@ -606,13 +606,13 @@ with col3:
                 
                 for i, seg in enumerate(segments):
                     if seg:
-                         latlon_seg = [(pt[1], pt[0]) for pt in seg]
-                         folium.PolyLine(
+                        latlon_seg = [(pt[1], pt[0]) for pt in seg]
+                        folium.PolyLine(
                              locations=latlon_seg,
                              color=palette[i % len(palette)],
                              weight=5,
                              opacity=0.8
-                         ).add_to(m)
+                        ).add_to(m)
                         
 
                         # 번호 마커 + 경로 시작점 기준 살짝 위로  offset
