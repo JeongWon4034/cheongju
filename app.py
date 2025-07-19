@@ -403,7 +403,7 @@ st.markdown('''
 <div class="header-container">
     <img src="https://raw.githubusercontent.com/JeongWon4034/cheongju/main/cheongpung_logo.png"
     alt='청풍로드 로고'
-    style ="width:50px; height:50px">
+    style ="width:100px; height:100px">
     <div class="main-title">청풍로드 - 청주시 AI기반 맞춤형 관광 플랫폼</div>
 </div>
 <div class="title-underline"></div>
