@@ -539,22 +539,11 @@ with col3:
                     data_resp = r.json() if r.status_code == 200 else {}
                     
                     if data_resp.get(key):
-                        if key == "routes": #walking 일때
-                            leg = data_resp[key][0]
-                            coords = leg["geometry"]["coordinates"]
-                            segs.append(coords)
-                            td += leg.get("duration", 0)
-                            tl += leg.get("distance", 0)
+                        leg = data_resp[key][0]
+                        segs.append(leg["geometry"]["coordinates"])
+                        td += leg.get("duration", 0)
+                        tl += leg.get("distance", 0)
 
-                        
-                        elif key == "trips":  #  driving 일 때
-                            legs= data_resp[key][0].get("legs",[])
-                            trip = data_resp[key][0]
-                            for leg in legs:
-                                coords = trip["geometry"]["coordinates"]
-                                segs.append(coords)
-                                td += leg.get("duration", 0)
-                                tl += leg.get("distance", 0)
                 
                 if segs:
                     st.session_state["order"] = stops
