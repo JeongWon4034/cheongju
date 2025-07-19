@@ -614,8 +614,8 @@ with col3:
 
                         # 번호 마커 + 경로 시작점 기준 살짝 위로  offset
                         start = seg[0]
-                        offset_lat = start[1] + (0.0004 if i % 2 == 0 else -0.0004)
-                        offset_lon = start[0] + (0.0004 if i % 2 == 0 else -0.0004)
+                        offset_lat = start[1] + ((i % 5) * 0.0012)
+                        offset_lon = start[0] + ((i % 3) * -0.0012)
                         
                         
                         folium.map.Marker( [offset_lat, offset_lon],
