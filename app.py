@@ -289,7 +289,7 @@ st.markdown("""
     }
     
     .stMetric [data-testid="metric-container"] > div:last-child {
-        font-size: 1.2rem;
+        font-size: 1.0rem;
         font-weight: 700;
         color: #1f2937;
     }
