@@ -568,7 +568,7 @@ with col3:
             for _, row in gdf.iterrows():
                 folium.Marker([row.lat, row.lon], 
                               popup=folium.Popup(row.name, max_width=200),
-                              tooltip=row.name,
+                              tooltip=row["name"],
                               icon=folium.Icon(color="gray")).add_to(mc)
             
             # 경로 지점들 마커
