@@ -401,7 +401,7 @@ st.markdown("""
 # ──────────────────────────────
 st.markdown('''
 <div class="header-container">
-    <img src="https://raw.githubusercontent.com/yeonjun7724/cb_streamlit/main/image.png" alt="청풍로드 로고" class="logo-image">
+    <img src="https://raw.githubusercontent.com/JeongWon4034/cheongju/main/cheongpung_logo.png">
     <div class="main-title">청풍로드 - 청주시 AI기반 맞춤형 관광 플랫폼</div>
 </div>
 <div class="title-underline"></div>
