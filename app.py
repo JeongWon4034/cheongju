@@ -12,12 +12,10 @@ import openai
 import math
 import os
 
-# ──────────────────────────────
 # ✅ 환경변수 불러오기 (Streamlit Cloud 호환에 저장된 키 사용)
 # ──────────────────────────────
 MAPBOX_TOKEN = st.secrets["MAPBOX_TOKEN"]
 openai.api_key = st.secrets["OPENAI_API_KEY"]
-
 
 # ──────────────────────────────
 # ✅ 데이터 로드 (안전한 로드)
